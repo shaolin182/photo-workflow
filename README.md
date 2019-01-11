@@ -75,6 +75,6 @@ TODO : script
 # Collections
 
 Collection tags are : 
-- Vacances|<YEAR>|<COUNTRY>|<CITY> (ex : Vacances|2018|France|Dordogne)
-- Sorties|<YEAR>|Amis/Familles|<EVENT> (ex : Sorties|2018|Famille|Noel_Girard)
-- Projet|<YEAR>|<TOPIC>
+- Vacances\|\<YEAR\>\|\<COUNTRY\>\|\<CITY\> (ex : Vacances|2018|France|Dordogne)
+- Sorties\|\<YEAR\>\|Amis/Familles\|\<EVENT\> (ex : Sorties|2018|Famille|Noel_Girard)
+- Projet\|\<YEAR\>\|\<TOPIC\>
