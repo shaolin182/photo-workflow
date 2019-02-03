@@ -219,7 +219,7 @@ TODO : script
 |2014-11_30_ans||||||||
 |2014-12_Cremaillère_sophie||||||||
 |2014-12_Noël||||||||
-|2015-04_Berlin|X||X|||||||||
+|2015-04_Berlin|X|X|/|||||||||
 |2015-05_ACDC||||||||
 |2015-05_Danemark||||||||
 |2015-06_EVG_Alex||||||||
@@ -243,7 +243,7 @@ TODO : script
 |2017-06_Sortie_ULM_Papa_Marion||||||||
 |2017-07_St_Jean||||||||
 |2017-08_Pays_Basque||||||||
-|2017-09_Londres|X|X|X|||||||||
+|2017-09_Londres|X|X|/|||||||||
 |2017-10_Mathis_Naissance||||||||
 |2017-11_Mathis_Mon_1er_Mois||||||||
 |2017-12_Famille_Noel_A_La_Maison||||||||
