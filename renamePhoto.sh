@@ -2,7 +2,7 @@
 
 EXPECTED_ARGS=2
 
-function displayHelp
+function help
 {
 	echo "Usage : `basename $0` [name] [file(s)]"
 	echo "Exemple : ./renamePhoto.sh Julien '/media/DATA/Photos/2012-04_Londres/*.JPG'" 

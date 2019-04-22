@@ -236,7 +236,7 @@ TODO : script
 |2016-08_Sud_France||||||||
 |2016-10_Milan||||||||
 |2016-12_Noël_Froger||||||||
-|2016-12_USA||||||||
+|2016-12_USA|X||X|||||
 |2017-03_Grossesse||||||||
 |2017-05_Mont_Saint_Michel||||||||
 |2017-05_Weekend_Bouée||||||||
@@ -278,3 +278,9 @@ TODO : script
 |2018-12_Noel||||||||
 |2019-01_Mathis||||||||
 |...||||||||
+
+
+Legend : 
+X : Done
+/ : In progress
+- : Not concerned

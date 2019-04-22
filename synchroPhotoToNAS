@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Launch rsync command to synchrnoize PHOTOS folder from my PC to NAS
+PC_PHOTO_PATH=/media/julien/RAID/Photos/
+NAS_PHOTO_PATH=root@192.168.0.16:/media/DATA/Photos/
+
+rsync -av --delete --bwlimit=5000 $PC_PHOTO_PATH $NAS_PHOTO_PATH

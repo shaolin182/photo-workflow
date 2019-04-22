@@ -58,6 +58,14 @@ update_tag_on_file() {
 
 }
 
+rename_photo() {
+    exiv2 -F -r"%Y-%m-%d_%H-%M-%S_$SUFFIX" rename $1 || true
+}
+
+# Loop on all images from source and add tag to them
+rename_photos() {
+    find "${SOURCE}" -mindepth 1 -maxdepth 1 -regex '.*NEF\|.*JPG\|.*jpg' | while read file; do rename_photo ${file}; done
+}
 
 # Loop on all images from source and add tag to them
 update_tag_on_files() {
@@ -100,6 +108,33 @@ tag_argument() {
     update_tag_on_files
 }
 
+# Tag pictures process
+rename_argument() {
+    while [ $# -gt 0 ]
+    do
+        case "$1" in
+            --suffix|-t)
+                SUFFIX="${2}"
+                shift
+                ;;
+            --source|-s)
+                SOURCE=$(escape_character "${2}")
+                shift
+                ;;
+            *)
+                echo "elserename"
+                exit 1
+                ;;    
+        esac
+        shift
+    done
+
+    export SUFFIX="${SUFFIX}"
+    export SOURCE="${SOURCE:-.}"
+
+    rename_photos
+}
+
 # Loop on all arguments and identify what main action should be run
 while [ $# -gt 0 ]
 do
@@ -107,6 +142,12 @@ do
         tag)
             shift
             tag_argument $@
+            break
+            exit 0
+            ;;
+        rename)
+            shift
+            rename_argument $@
             break
             exit 0
             ;;
