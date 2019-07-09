@@ -6,7 +6,7 @@ if [ "$1" = "-p" ]; then
     DRYRUN=no
 fi
 
-DBFILE=~/.config/darktable/library.db
+DBFILE=/media/julien/RAID/Software/Darktable/library.db
 TMPFILE=`mktemp -t tmp.XXXXXXXXXX`
 QUERY="select A.id,B.folder,A.filename from images as A join film_rolls as B on A.film_id = B.id"
 sqlite3 $DBFILE "$QUERY" > $TMPFILE

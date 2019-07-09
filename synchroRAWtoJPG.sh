@@ -29,7 +29,7 @@ do
 	then 
 		echo "No match found for $FILENAME - move it to temp folder"
 		
-		mv "$i" "$TEMP_DIR/$FILENAME"
+		# mv "$i" "$TEMP_DIR/$FILENAME"
 	fi
 done
 

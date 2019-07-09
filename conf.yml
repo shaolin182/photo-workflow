@@ -1,0 +1,13 @@
+raw: 
+  dir: /media/julien/RAID/Images/RAW/
+  include: 
+    - .*.NEF$
+  exclude: 
+    - .*.pto
+jpg: 
+  dir: /media/julien/RAID/Images/Photos/
+  include: 
+    - .*.JPG|.*.PNG
+  exclude: 
+    - .*Panorama.*
+tmp_dir: /media/julien/RAID/Images/RAW/TO_DELETE/

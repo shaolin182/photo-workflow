@@ -7,7 +7,7 @@ It also shares all scripts I used in order to achieve it.
 Required tools are : 
 - Darktable for classifying and modifying RAW images
 - Hugin for making panoramas
-- Gwenview for viewing photoggraphy
+- Gwenview for viewing photography
 - Digikam for classifying JPG images
 - XnView for modifying exif tag
 
