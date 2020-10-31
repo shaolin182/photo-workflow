@@ -5,7 +5,7 @@ raw:
   exclude: 
     - .*.pto
 jpg: 
-  dir: /media/julien/RAID/Images/Photos/
+  dir: /media/julien/DATA/Photos/
   include: 
     - .*.JPG|.*.PNG
   exclude: 

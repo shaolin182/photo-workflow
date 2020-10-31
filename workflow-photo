@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -o errexit
+#set -o errexit
 
 # Add an exif tag to a picture
 # 
@@ -86,7 +86,7 @@ tag_argument() {
                 shift
                 ;;
             --source|-s)
-                SOURCE=$(escape_character "${2}")
+                SOURCE=${2}
                 shift
                 ;;
             --rm)
@@ -118,7 +118,7 @@ rename_argument() {
                 shift
                 ;;
             --source|-s)
-                SOURCE=$(escape_character "${2}")
+                SOURCE=${2}
                 shift
                 ;;
             *)

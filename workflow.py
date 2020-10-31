@@ -1,7 +1,8 @@
 import click
-from rename import rename
+from photo_workflow.rename import rename
 #from import_images import process
-from sync import sync
+from photo_workflow.sync import sync
+from photo_workflow.exif import tag_process
 
 @click.group()
 def cli():
@@ -49,8 +50,8 @@ def rename_cli(source, suffix, recursive, filter, verbose):
 @click.option('-d', '--delimiter', help='Delimiter for hierarchical tag', 
     default="|")
 @click.option('--rm', help='If specified, remove tags from images')
-@click.option('-v', '--verbose', help='Display more details')
-def tag():
+@click.option('-v', '--verbose', is_flag=True, help='Display more details')
+def tag(source, tag, delimiter, rm, verbose):
     """
     Catalog each images from SOURCE directory by applying custom TAG
 
@@ -63,6 +64,8 @@ def tag():
     Those tags are persisted in EXIF data in order to be reused by some other 
     tools
     """
+    tag_process(source, "Xmp.dc.Subject", tag, delimiter, rm, verbose)
+    tag_process(source, "Xmp.lr.hierarchicalSubject", tag, delimiter, rm, verbose)
     click.echo('Tag an image')
 
 
