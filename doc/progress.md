@@ -202,7 +202,10 @@
 |2019-12_Noel||||||||
 |...||||||||
 
-Legend : 
+Legend :
+
 X : Done
+
 / : In progress
+
 - : Not concerned
