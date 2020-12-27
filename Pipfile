@@ -5,9 +5,9 @@ name = "pypi"
 
 [packages]
 click = "*"
-piexif = "*"
 pyyaml = "*"
 py3exiv2 = "*"
+photo-workflow = {editable = true, path = "."}
 
 [dev-packages]
 pytest = "*"

@@ -5,11 +5,7 @@ from photo_workflow import exif
 def test_load_exif_tag():
 
     # Load all exif data
-    # exif_data = exif.load_exif_data("./test/resources/2013-06-01_10-08-04_Julien.NEF")
-    exif_data = exif.load_exif_data("/media/julien/RAID/Images/RAW/2020/2020-09_Theo/2020-10-11_15-03-56_1_D750.NEF")
-
-    original_date = exif.get_exif_data(exif_data, "Exif.Photo.DateTimeOriginal")
-    print(original_date)
+    exif_data = exif.load_exif_data("./test/resources/2013-06-01_10-08-04_Julien.NEF")
 
     # Load specific XMP tag
     exif_hierarchical_subject = exif.get_exif_data(exif_data, "Xmp.lr.hierarchicalSubject")

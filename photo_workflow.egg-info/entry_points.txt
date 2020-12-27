@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        photo-workflow=photo_workflow.workflow:cli
+    

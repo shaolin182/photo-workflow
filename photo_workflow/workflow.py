@@ -1,6 +1,5 @@
 import click
 from photo_workflow.rename import rename
-#from import_images import process
 from photo_workflow.sync import sync
 from photo_workflow.exif import tag_process
 
@@ -34,7 +33,7 @@ def import_images(source, collection, type, recursive, filter, verbose):
 @click.option('-f', '--filter', help='Regex used for matching files')
 @click.option('-v', '--verbose', is_flag=True, help='Display more details')
 def rename_cli(source, suffix, recursive, filter, verbose):
-    """ 
+    """
     Rename all images containing in 'SOURCE' directory
     
     Renaming process uses EXIF data of images and in particular, timestamp for
@@ -66,7 +65,6 @@ def tag(source, tag, delimiter, rm, verbose):
     """
     tag_process(source, "Xmp.dc.Subject", tag, delimiter, rm, verbose)
     tag_process(source, "Xmp.lr.hierarchicalSubject", tag, delimiter, rm, verbose)
-    click.echo('Tag an image')
 
 
 @cli.command("sync")

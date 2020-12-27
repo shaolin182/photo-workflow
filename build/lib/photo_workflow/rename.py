@@ -60,7 +60,7 @@ def rename_file(directory, file, suffix, exclude, verbose):
     source = directory + "/" + file
     date_from_file = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime(os.stat(source)[ST_MTIME]))
     data = exif.load_exif_data(source)
-    original_date = exif.get_exif_data(data, "Exif.Photo.DateTimeOriginal")
+    original_date = exif.get_exif_data(data, "DateTimeOriginal")
     if original_date is not None:
         target = build_new_filename(directory, file, suffix, original_date)
         os.rename(source, target)
@@ -83,7 +83,7 @@ def build_new_filename(directory, file, suffix, exif_date, date_as_string=False,
     - exif_date : data used for building filename
     """
     if date_as_string is False:
-        date = datetime.strptime(exif_date, '%Y:%m:%d %H:%M:%S')
+        date = datetime.strptime(str(exif_date, 'utf-8'), '%Y:%m:%d %H:%M:%S')
         filename = date.strftime("%Y-%m-%d_%H-%M-%S")
     else :
         filename = exif_date
