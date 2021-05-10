@@ -1,0 +1,32 @@
+raw: 
+  dir: /media/julien/RAID/Images/RAW/
+  include: 
+    - .*.NEF
+  exclude: 
+    - .*.pto
+jpg: 
+  dir: /media/julien/DATA/Photos/
+  include: 
+    - .*.JPG|.*.PNG
+  exclude: 
+    - .*Panorama.*
+tmp_dir: /media/julien/RAID/Images/RAW/TO_DELETE/
+collections:
+  - basePath: /media/julien/RAID/Images/RAW/
+    collectionPath: /media/julien/RAID/Images/RAW/*/*/
+    type: RAW
+    include: 
+      - .*.NEF
+    exclude: 
+      - .*.pto
+  - basePath: /media/julien/DATA/Photos/
+    collectionPath: /media/julien/DATA/Photos/*/*/
+    type: JPG
+    include: 
+      - .*.JPG
+      - .*.PNG
+    exclude: 
+      - .*Panorama.*
+regex:
+  collection: \d{4}\-\d{2}\_.*|to_sort
+  photo_file: \d{4}\-\d{2}\-\d{2}\_\d{2}\-\d{2}\-\d{2}.*

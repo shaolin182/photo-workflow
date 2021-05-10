@@ -1,11 +1,14 @@
 import click
-from photo_workflow.rename import rename
+from photo_workflow.rename import rename_process
 from photo_workflow.sync import sync
 from photo_workflow.exif import tag_process
+from photo_workflow.utils.logging_photo import logger
 
 @click.group()
 def cli():
-    """ Main group command"""
+    """ 
+    v0.2
+    """
     pass
 
 
@@ -27,21 +30,16 @@ def import_images(source, collection, type, recursive, filter, verbose):
 
 
 @cli.command("rename")
-@click.argument('source', type=click.Path(exists=True))
-@click.option('-s', '--suffix', help='Suffix applied to all images')
-@click.option('-r', '--recursive', is_flag=True, default=False)
-@click.option('-f', '--filter', help='Regex used for matching files')
-@click.option('-v', '--verbose', is_flag=True, help='Display more details')
-def rename_cli(source, suffix, recursive, filter, verbose):
+@click.option('-c', '--collection', help='Collection to work on, if empty runs on all collections')
+@click.option('-f', '--force', help='Force renaming files', is_flag=True, default=False)
+def rename_cli(collection, force):
     """
-    Rename all images containing in 'SOURCE' directory
-    
-    Renaming process uses EXIF data of images and in particular, timestamp for
-    renaming an image with the following format
+    Rename images from a collection
 
-    If no EXIF data are found, then prompt user for new filename
+    Renaming process uses EXIF data of images for building a new filename
     """
-    rename(source, suffix, recursive, filter, verbose)
+    logger.info("CLI Command - Rename collection : %s, force flag : %s", collection, force)
+    rename_process(collection, force)
 
 @cli.command()
 @click.argument('source', type=click.Path(exists=True))

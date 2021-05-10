@@ -1,6 +1,8 @@
 import os
-import yaml
 import re
+import pkg_resources
+import yaml
+from photo_workflow.utils.logging_photo import logger
 
 def create_folder(dir_name, verbose):
     if not os.path.exists(dir_name):
@@ -14,12 +16,14 @@ def create_folder(dir_name, verbose):
 
 def load_configuration():
     """ Load YAML configuration file into dict """
-    return yaml.safe_load(open('conf.yml'))
+    conf_file = pkg_resources.resource_stream(__name__, "conf.yml")
+    return yaml.safe_load(conf_file)
 
 
 def load_tag_configuration():
     """ Load YAML configuration file into dict """
-    return yaml.safe_load(open('conf_xmp_tag.yml'))
+    conf_xmp_file = pkg_resources.resource_stream(__name__, "conf_xmp_tag.yml")
+    return yaml.safe_load(conf_xmp_file)
 
 
 def list_files(basedir, recursive=False, pattern_to_exclude=None, verbose=False):
@@ -58,8 +62,39 @@ def list_files(basedir, recursive=False, pattern_to_exclude=None, verbose=False)
     else:
         result = list_files
 
-    
     return result
+
+def check_regex(pattern, string):
+    """
+    Check that a value is valid according a regex
+    Throw an exception if an error occurs
+    """
+    result = re.search(pattern, string)
+    if result is None:
+        logger.error("'%s' does not match configured regex '%s'", string, pattern)
+        raise ValueError("'{0}' does not match configured regex '{1}".format(string, pattern))
+
+
+def get_collection_path(base_path, collection):
+    """
+    Build directory where images files are saved given a collection name
+    and application conf
+    """
+    year = extract_year_from_collection(collection)
+    return os.path.join(base_path, year, collection)
+
+
+def get_directory_path(conf_sync, collection):
+    """
+    Build directory where images files are saved given a collection name
+    and application conf
+    """
+    year = extract_year_from_collection(collection)
+    return conf_sync["dir"] + year + "/" + collection
+
+
+def extract_year_from_collection(collection):
+    return collection[:4]
 
 conf = load_configuration()
 conf_tag = load_tag_configuration()

@@ -8,6 +8,51 @@ import re
 from stat import *
 from datetime import datetime 
 from photo_workflow import exif
+from photo_workflow.photo_collection import PhotoCollectionFactory
+from photo_workflow.utils.logging_photo import logger
+
+def rename_process(collection_name, force=False):
+
+    logger.info("Renaming photos from collection %s", collection_name)
+
+    collections = []
+
+    if collection_name is not None:
+        collections = PhotoCollectionFactory().get_collection(collection_name)
+    else:
+        collections = PhotoCollectionFactory().get_all_collections()
+
+    for collection in collections:
+        if collection.is_rename_enabled():
+            logger.debug("Retrieving photos from collection %s", collection.name)
+            for photo in collection.get_collection_files():
+                try:
+                    photo.rename(force)
+                except AttributeError as e:
+                    logger.error("Cannot rename file %s - error %s", photo.full_path, e)
+            
+            collection.update_rename_info()
+
+
+def build_filename(a_file, exif_data, index=0):
+
+    # Get Date from exif
+    file_date = exif.get_exif_data(exif_data, "Exif.Photo.DateTimeOriginal")
+    if file_date is None:
+        # Log error, use file system date
+        file_date = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime(os.stat(a_file)[ST_MTIME]))
+
+    # Get model from exif
+    model = exif.get_exif_data(exif_data, "Exif.Image.Model")
+
+    filename = '_'.join(str(e) for e in filter(None, [file_date, model, index]))
+
+    # Filename already exists, add index
+    if os.path.isfile(filename):
+        index += 1
+        filename = build_filename(a_file, exif_data, index)
+
+    return filename
 
 def rename(source, suffix, recursive, exclude, verbose):
     """ 
@@ -60,7 +105,7 @@ def rename_file(directory, file, suffix, exclude, verbose):
     source = directory + "/" + file
     date_from_file = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime(os.stat(source)[ST_MTIME]))
     data = exif.load_exif_data(source)
-    original_date = exif.get_exif_data(data, "DateTimeOriginal")
+    original_date = get_original_date(data, file)
     if original_date is not None:
         target = build_new_filename(directory, file, suffix, original_date)
         os.rename(source, target)
@@ -71,6 +116,22 @@ def rename_file(directory, file, suffix, exclude, verbose):
         os.rename(source, target)
         if verbose:
             print("File {0} - renamed in {1}".format(source, target))
+
+def get_original_date(exif_data, file):
+    """
+    As filename are build with date time, we look into exif data for original date
+    Original date can be present in tag 'Exif.Photo.DateTimeOriginal' for RAW files and in 'DateTimeOriginal' for JPG files
+
+    If original date is not found, raise an error
+    """
+    original_date = exif.get_exif_data(exif_data, "Exif.Photo.DateTimeOriginal")
+    if original_date is None:
+        original_date = exif.get_exif_data(exif_data, "DateTimeOriginal")
+
+    if original_date is None:
+        print('No date found in file {0}'.format(file))
+
+    return original_date
 
 def build_new_filename(directory, file, suffix, exif_date, date_as_string=False, index=0):
     """
@@ -83,7 +144,7 @@ def build_new_filename(directory, file, suffix, exif_date, date_as_string=False,
     - exif_date : data used for building filename
     """
     if date_as_string is False:
-        date = datetime.strptime(str(exif_date, 'utf-8'), '%Y:%m:%d %H:%M:%S')
+        date = datetime.strptime(exif_date, '%Y:%m:%d %H:%M:%S')
         filename = date.strftime("%Y-%m-%d_%H-%M-%S")
     else :
         filename = exif_date
