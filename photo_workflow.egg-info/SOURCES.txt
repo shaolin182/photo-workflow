@@ -4,12 +4,11 @@ photo_workflow/__init__.py
 photo_workflow/exif.py
 photo_workflow/helpers.py
 photo_workflow/import_images.py
-photo_workflow/init_collection.py
 photo_workflow/photo.py
 photo_workflow/photo_collection.py
-photo_workflow/rename.py
 photo_workflow/sync.py
 photo_workflow/workflow.py
+photo_workflow/workflow_process.py
 photo_workflow.egg-info/PKG-INFO
 photo_workflow.egg-info/SOURCES.txt
 photo_workflow.egg-info/dependency_links.txt
@@ -21,5 +20,6 @@ photo_workflow/utils/logging_photo.py
 test/__init__.py
 test/exif_test.py
 test/helpers_test.py
+test/photo_collection_test.py
 test/rename_test.py
 test/sync_test.py

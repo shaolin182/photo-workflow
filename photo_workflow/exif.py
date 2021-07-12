@@ -83,7 +83,8 @@ def get_exif_data(exif_data, exif_param):
     - exif_param : EXIF info to retrieve
     """
     try:
-        return exif_data[exif_param].raw_value
+        exif_value = exif_data[exif_param].raw_value
+        return exif_value if isinstance(exif_value, list) else [exif_value]
     except KeyError:
         return None
 
@@ -103,21 +104,22 @@ def add_or_update_exif_data(exif_data, exif_param, exif_value):
     if is_tag_list(exif_param, conf_tag):
         exif_data[exif_param] = exif_value
     else:
-        exif_data[exif_param] = exif_value[0]
+        exif_data[exif_param] = exif_value[-1]
 
+
+def write_exif_data(exif_data):
     exif_data.write(preserve_timestamps=True)
 
 
 def remove_exif_data(exif_data, exif_param):
     """
-    Remove a exif Tage
+    Remove a exif Tag
 
     @param:
     - exif_data : all Exif data from file
     - exif_param : EXIF info to retrieve
     """
     exif_data._delete_xmp_tag(exif_param)
-    exif_data.write(preserve_timestamps=True)
 
 
 def is_exif_data_exists(exif_data, exif_param):

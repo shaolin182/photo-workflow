@@ -10,7 +10,7 @@ jpg:
     - .*.JPG|.*.PNG
   exclude: 
     - .*Panorama.*
-tmp_dir: /media/julien/RAID/Images/RAW/TO_DELETE/
+tmp_dir: /media/julien/RAID/Images/TO_DELETE/
 collections:
   - basePath: /media/julien/RAID/Images/RAW/
     collectionPath: /media/julien/RAID/Images/RAW/*/*/

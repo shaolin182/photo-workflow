@@ -1,13 +1,12 @@
 import click
-from photo_workflow.rename import rename_process
 from photo_workflow.sync import sync
-from photo_workflow.exif import tag_process
 from photo_workflow.utils.logging_photo import logger
+from photo_workflow.workflow_process import TagProcess, RenameProcess, InitCollection, SyncProcess
 
 @click.group()
 def cli():
-    """ 
-    v0.2
+    """
+    v1.0.0-beta1
     """
     pass
 
@@ -39,47 +38,45 @@ def rename_cli(collection, force):
     Renaming process uses EXIF data of images for building a new filename
     """
     logger.info("CLI Command - Rename collection : %s, force flag : %s", collection, force)
-    rename_process(collection, force)
+    RenameProcess().run(collection, force)
 
 @cli.command()
-@click.argument('source', type=click.Path(exists=True))
-@click.argument('tag')
-@click.option('-d', '--delimiter', help='Delimiter for hierarchical tag', 
-    default="|")
-@click.option('--rm', help='If specified, remove tags from images')
-@click.option('-v', '--verbose', is_flag=True, help='Display more details')
-def tag(source, tag, delimiter, rm, verbose):
+@click.option('-c', '--collection', help='Collection to work on, if empty runs on all collections')
+@click.option('-f', '--force', help='Force tagging files', is_flag=True, default=False)
+def tag(collection, force):
     """
-    Catalog each images from SOURCE directory by applying custom TAG
+    Catalog each image collection by applying tags from metadata
 
-    \b
-    A tag can reference a simple string or a hierarchical structure
-    Ex : 
-    - Simple tag : "Vacances"
-    - Hierarchical tag : "Vacances|2019|France|Rochelle"
-
-    Those tags are persisted in EXIF data in order to be reused by some other 
+    Those tags are persisted in EXIF data in order to be reused by some other
     tools
     """
-    tag_process(source, "Xmp.dc.Subject", tag, delimiter, rm, verbose)
-    tag_process(source, "Xmp.lr.hierarchicalSubject", tag, delimiter, rm, verbose)
+    logger.info("CLI Command - Tag collection : %s, force flag : %s", collection, force)
+    TagProcess().run(collection, force)
+
+
+@cli.command("init")
+@click.option('-c', '--collection', help='Collection to init, if empty runs on all collections')
+@click.option('-f', '--force', help='Force creating collections', is_flag=True, default=False)
+def init_collection(collection, force):
+    """
+    Create metadata file for collection
+    """
+    logger.info("CLI Command - Init collection : %s, force flag : %s", collection, force)
+    InitCollection(collection, force).process()
 
 
 @cli.command("sync")
-@click.argument('collection')
-@click.option('--source', type=click.Choice(['RAW', 'JPG']), default="JPG", 
-    help="Source of sync files")
-@click.option('-f', '--filter', help='Regex used for matching files')
-@click.option('-v', '--verbose', help='Display more details')
-def sync_cli(collection, source, filter, verbose):
-    """ 
+@click.option('-c', '--collection', help='Collection to work on, if empty runs on all collections')
+@click.option('-f', '--force', help='Force renaming files', is_flag=True, default=False)
+def sync_cli(collection, force):
+    """
     Synchronize RAW and JPG directory
-    
+
     Remove RAW file if no matching JPG file exists
     Remove JPG file if no matching RAW file exists
     """
-    sync(collection, source, filter, verbose)
-    
+    SyncProcess().run(collection, force)
+
 
 if __name__ == '__main__':
     cli()
